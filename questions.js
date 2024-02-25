@@ -1,13 +1,13 @@
 let questions = [
     {
         numb: 1,
-        question: "what does HTML stand for ?",
-        answer: "C.Hyper Text Markup Language",
+        question: "ଭାରତର ପ୍ରଥମ ବିଶ୍ଵ ସୁନ୍ଦରୀ କିଏ ?",
+        answer: "C. ସୁସ୍ମିତା ସେନ୍",
         options: [
-            "A.hyper text multi language",
-            "B.hyper text multiple language",
-            "C.Hyper Text Markup Language",
-            "D.home text multi language"
+            "A. ଐଶ୍ ବଛନ",
+            "B. ପ୍ରିୟଙ୍କା ଚୋପ୍ରା",
+            "C. ସୁସ୍ମିତା ସେନ୍",
+            "D. ଦୀପିକା ପାଦୁକନ"
         ]
     },
     {

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in || Sign up from</title>
+    <!-- font awesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+        integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- css stylesheet -->
+    <link rel="stylesheet" href="login.css">
+</head>
+
+<body>
+
+    <div class="container" id="container">
+        <div class="form-container sign-up-container">
+            <form id="MainForm" class="form">Create Account</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your email for registration</span>
+                <div class="infield">
+                    <input type="text" class="form-control" id="fnameInp" placeholder="Name" />
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="email" class="form-control" id="emailInp" placeholder="Email" name="email" />
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="password" class="form-control" id="passwordInp" placeholder="Password" />
+                    <label></label>
+                </div>
+                <button type="submit">signup</button>
+                <button id="google-login-btn" class="google-button">
+                    <i class="fab fa-google"></i> Login with Google
+                </button>
+            </form>
+        </div>
+        <div class="form-container sign-in-container">
+            <form id="S-mainForm">
+                <h1>Sign in</h1>
+                <div class="social-container">
+                    <a href="#" class="social"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social"><i class="fab fa-google-plus-g"></i></a>
+                    <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <span>or use your account</span>
+                <div class="infield">
+                    <input type="email" class="form-control" id="emailIn" placeholder="Email" name="email" />
+                    <label></label>
+                </div>
+                <div class="infield">
+                    <input type="password" class="form-control" id="PasswordIn" placeholder="Password" />
+                    <label></label>
+                </div>
+                <a href="#" class="forgot">Forgot your password?</a>
+                <button type="Submit">Sign In</button>
+            </form>
+        </div>
+        <div class="overlay-container" id="overlayCon">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <h1>Welcome Back!</h1>
+                    <p>To keep connected with us please login with your personal info</p>
+                    <button>Sign In</button>
+                </div>
+                <div class="overlay-panel overlay-right">
+                    <h1>Hello, Friend!</h1>
+                    <p>Enter your personal details and start journey with us</p>
+                    <button>Sign Up</button>
+
+                </div>
+
+
+
+            </div>
+            <button id="overlayBtn"></button>
+        </div>
+    </div>
+
+
+
+    <!-- js code -->
+    <script>
+        const container = document.getElementById('container');
+        const overlayCon = document.getElementById('overlayCon');
+        const overlayBtn = document.getElementById('overlayBtn');
+
+        overlayBtn.addEventListener('click', () => {
+            container.classList.toggle('right-panel-active');
+
+            overlayBtn.classList.remove('btnScaled');
+            window.requestAnimationFrame(() => {
+                overlayBtn.classList.add('btnScaled');
+            })
+        });
+
+    </script>
+    <script type="module">
+
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        // import { get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+        import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDj-8XuDJES-WRcGubdsyAi8A11_IWC39Y",
+            authDomain: "vidyalay-c86ac.firebaseapp.com",
+            databaseURL: "https://vidyalay-c86ac-default-rtdb.firebaseio.com",
+            projectId: "vidyalay-c86ac",
+            storageBucket: "vidyalay-c86ac.appspot.com",
+            messagingSenderId: "1087024805919",
+            appId: "1:1087024805919:web:0322d06cd7164a1b877d2a"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase();
+        const auth = getAuth(app);
+
+
+        let EmailInp = document.getElementById('emailInp');
+        let PassInp = document.getElementById('passwordInp');
+        let FnameInp = document.getElementById('fnameInp');
+        let MainInp = document.getElementById('MainInp');
+
+        let RegisterUser = evt => {
+            evt.preventDefault();
+
+            createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then((credentials) => {
+                    console.log(credentials);
+                })
+                .catch((error) => {
+                    alert(error.massage);
+                    console.log(error.code);
+                    console.log(error.massage);
+                })
+        }
+        MainForm.addEventListener('submit', RegisterUser);
+
+
+        let EmailIn = document.getElementById('emailIn');
+        let PassIn = document.getElementById('passwordIn');
+
+        let SmainInp = document.getElementById('S-mainInp');
+
+        let SignInUser = evt => {
+            evt.preventDefault();
+
+            SignInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+                .then((credentials) => {
+                    console.log(credentials);
+                })
+                .catch((error) => {
+                    alert(error.massage);
+                    console.log(error.code);
+                    console.log(error.massage);
+                })
+        }
+        MainForm.addEventListener('Submit', SignInUser);
+
+    </script>
+    <script src="main.js"></script>
+
+</body>
+
+</html>
