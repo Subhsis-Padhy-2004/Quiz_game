@@ -89,8 +89,37 @@
                         <a href="#" class="info-btn continue-btn">ଜାରି ରଖ</a>
                     </div>
     </div>
+    <h2 id="msg"></h2>
+    <h2 id="greet"></h2>
+
     <script src="questions.js"></script>
     <script src="script.js"></script>
+    <script type="module">
+        let UserCreds = JSON.parse(sessionStorage.getItem("user-creds"));
+        let UserInfo = JSON.parse(sessionStorage.getItem("user-info"));
+
+        let MsgHead = document.getElementById('msg');
+        let GreeetHead = document.getElementById('greet');
+        let SignoutBtn = document.getElementById('signoutbutton');
+
+        let Signout = () => {
+            sessionStorage.removeItem("user-creads");
+            sessionStorage.removeItem("user-info");
+            window.location.herf = 'index.html'
+        }
+        let CheckCred = () => {
+            if (!sessionStorage.getItem('user-creads'))
+                window.location.herf = 'index.html'
+            else {
+                MsgHead.innerText = `user with email "${UserCreds.emamil}" logged in`;
+                GreeetHead.innerText = `wlcome ${UserInfo.firstname + " "}`;
+            }
+        }
+
+        window.addEventListener('load', CheckCred);
+        SignoutBtn.addEventListener('click', Signout);
+
+    </script>
 </body>
 
 </html>

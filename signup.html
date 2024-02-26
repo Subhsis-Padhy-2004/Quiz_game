@@ -109,7 +109,7 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, set, ref } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        // import { get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
+        import { get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"
         import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
 
@@ -127,6 +127,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase();
         const auth = getAuth(app);
+        const dbref = ref(db);
 
 
         let EmailInp = document.getElementById('emailInp');
@@ -140,6 +141,9 @@
             createUserWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
                 .then((credentials) => {
                     console.log(credentials);
+                    set(ref(db, 'UsersAuthList/' + credentials.user.uid), {
+                        firstname: FnameInp.value,
+                    })
                 })
                 .catch((error) => {
                     alert(error.massage);
@@ -151,27 +155,35 @@
 
 
         let EmailIn = document.getElementById('emailIn');
-        let PassIn = document.getElementById('passwordIn');
-
-        let SmainInp = document.getElementById('S-mainInp');
+        let PassIn = document.getElementById('PasswordIn');
+        let SmainForm = document.getElementById('S-mainForm');
 
         let SignInUser = evt => {
             evt.preventDefault();
 
-            SignInWithEmailAndPassword(auth, EmailInp.value, PassInp.value)
+            signInWithEmailAndPassword(auth, EmailIn.value, PassIn.value)
                 .then((credentials) => {
-                    console.log(credentials);
+                    get(child(dbref, 'UsersAuthList/' + credentials.user.uid)).then((snapshort) => {
+                        if (snapshort.exists) {
+                            sessionStorage.setItem("user-info", JSON.stringify({
+                                firstname: snapshort.val().firstname
+                            }))
+                            sessionStorage.setItem("user-creds", JSON.stringify(credentials.user));
+                            window.location.herf = 'index.html'
+                        }
+                    })
                 })
                 .catch((error) => {
-                    alert(error.massage);
+                    alert(error.message);
                     console.log(error.code);
-                    console.log(error.massage);
+                    console.log(error.message);
                 })
         }
-        MainForm.addEventListener('Submit', SignInUser);
+        SmainForm.addEventListener('submit', SignInUser);
+
 
     </script>
-    <script src="main.js"></script>
+
 
 </body>
 
